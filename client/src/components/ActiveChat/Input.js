@@ -20,7 +20,7 @@ const useStyles = makeStyles(() => ({
 const Input = (props) => {
   const classes = useStyles();
   const [text, setText] = useState("");
-  const { fetchConversations, postMessage, otherUser, conversationId, user } = props;
+  const { postMessage, otherUser, conversationId, user } = props;
 
   const handleChange = (event) => {
     setText(event.target.value);
@@ -36,7 +36,6 @@ const Input = (props) => {
       sender: conversationId ? null : user
     };
     await postMessage(reqBody);
-    fetchConversations();
     setText("");
   };
 
@@ -60,9 +59,6 @@ const mapDispatchToProps = (dispatch) => {
   return {
     postMessage: (message) => {
       dispatch(postMessage(message));
-    },
-    fetchConversations: () => {
-      dispatch(fetchConversations());
     }
   };
 };
