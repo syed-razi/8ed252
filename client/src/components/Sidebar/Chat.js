@@ -1,5 +1,5 @@
 import React from "react";
-import { Box } from "@material-ui/core";
+import { Box, Chip } from "@material-ui/core";
 import { BadgeAvatar, ChatContent } from "../Sidebar";
 import { makeStyles } from "@material-ui/core/styles";
 import { setActiveChat } from "../../store/activeConversation";
@@ -15,18 +15,28 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     alignItems: "center",
     "&:hover": {
-      cursor: "grab"
-    }
-  }
+      cursor: "grab",
+    },
+  },
+  chip: {
+    fontSize: 10,
+    fontWeight: "bold",
+  },
 }));
 
 const Chat = (props) => {
   const classes = useStyles();
   const { conversation, user } = props;
   const { otherUser } = conversation;
+  const numUnreadMessages = conversation.messages.filter(
+    (message) => message.senderId !== user.id && !message.read
+  ).length;
 
   const handleClick = async (conversation) => {
-    if(conversation.latestMessage?.senderId !== user.id && !conversation.latestMessage?.read) {
+    if (
+      conversation.latestMessage?.senderId !== user.id &&
+      !conversation.latestMessage?.read
+    ) {
       await props.postReadMessages(conversation);
     }
     await props.setActiveChat(conversation.otherUser.username);
@@ -41,13 +51,16 @@ const Chat = (props) => {
         sidebar={true}
       />
       <ChatContent conversation={conversation} />
+      {numUnreadMessages > 0 && (
+        <Chip className={classes.chip} label={numUnreadMessages} />
+      )}
     </Box>
   );
 };
 
 const mapStateToProps = (state) => {
   return {
-    user: state.user
+    user: state.user,
   };
 };
 
@@ -58,7 +71,7 @@ const mapDispatchToProps = (dispatch) => {
     },
     postReadMessages: (conversation) => {
       dispatch(postReadMessages(conversation));
-    }
+    },
   };
 };
 
