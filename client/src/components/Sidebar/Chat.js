@@ -19,8 +19,9 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   chip: {
-    fontSize: 10,
+    fontSize: 12,
     fontWeight: "bold",
+    marginRight: 5,
   },
 }));
 
@@ -52,7 +53,12 @@ const Chat = (props) => {
       />
       <ChatContent conversation={conversation} />
       {numUnreadMessages > 0 && (
-        <Chip className={classes.chip} label={numUnreadMessages} />
+        <Chip
+          className={classes.chip}
+          label={numUnreadMessages}
+          color="primary"
+          size="small"
+        />
       )}
     </Box>
   );
