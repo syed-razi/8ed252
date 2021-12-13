@@ -33,8 +33,6 @@ const ChatContent = (props) => {
   const { conversation, user } = props;
   const { latestMessage, otherUser } = conversation;
 
-  console.log(latestMessage);
-
   return (
     <Box className={classes.root}>
       <Box>
@@ -43,9 +41,9 @@ const ChatContent = (props) => {
         </Typography>
         <Typography
           className={
-            !latestMessage?.read && user.id === latestMessage?.senderId
-              ? classes.previewText
-              : classes.previewTextUnread
+            !latestMessage?.read && user.id !== latestMessage?.senderId
+              ? classes.previewTextUnread
+              : classes.previewText
           }
         >
           {`${user.id === latestMessage?.senderId ? "You: " : ""} ${
