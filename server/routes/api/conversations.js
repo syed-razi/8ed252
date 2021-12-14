@@ -53,7 +53,6 @@ router.get("/", async (req, res, next) => {
       // sort messages from oldest to newest
       convoJSON.messages.sort((a, b) => a.createdAt - b.createdAt);
 
-
       // set a property "otherUser" so that frontend will have easier access
       if (convoJSON.user1) {
         convoJSON.otherUser = convoJSON.user1;
@@ -71,7 +70,9 @@ router.get("/", async (req, res, next) => {
       }
 
       // set properties for notification count and latest message preview
-      convoJSON.latestMessage = { text: convoJSON.messages[convoJSON.messages.length - 1].text, read: convoJSON.messages[convoJSON.messages.length - 1].read, senderId: convoJSON.messages[convoJSON.messages.length - 1].senderId };
+      convoJSON.latestMessage = {
+        ...convoJSON.messages[convoJSON.messages.length - 1],
+      };
       conversations[i] = convoJSON;
     }
 

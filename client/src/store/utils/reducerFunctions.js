@@ -29,9 +29,9 @@ export const readMessagesFromStore = (state, payload) => {
     if (convo.id === convoId) {
       const convoCopy = {
         ...convo,
+        messages: updatedMessages,
+        latestMessage: updatedMessages[updatedMessages.length - 1]
       };
-      convoCopy.messages = updatedMessages;
-      convoCopy.latestMessage = updatedMessages[0];
       return convoCopy;
     } else {
       return convo;

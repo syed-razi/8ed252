@@ -17,15 +17,8 @@ router.post("/", async (req, res, next) => {
           plain: true,
         }
       );
-      updatedMessages.push(result[1]);
-    }
-
-    for (let i = 0; i < updatedMessages.length; i++) {
-      const message = updatedMessages[i];
-      const messageJSON = message.toJSON();
-
-    
-      updatedMessages[i] = messageJSON;
+      //When returning is true, update returns an array with the second item (index 1) being the updated db value
+      updatedMessages.push(result[1].toJSON());
     }
 
     res.json({ convoId, updatedMessages });
