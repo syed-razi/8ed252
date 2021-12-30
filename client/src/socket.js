@@ -19,7 +19,11 @@ socket.on("connect", () => {
     store.dispatch(removeOfflineUser(id));
   });
   socket.on("new-message", (data) => {
+    // Only set new message for correct recipient
+    if (data.recipientId === store.getState().user.id) {
     store.dispatch(setNewMessage(data.message, data.sender));
+    }
+  });
   });
 });
 
