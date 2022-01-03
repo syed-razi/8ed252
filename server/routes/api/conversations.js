@@ -62,11 +62,15 @@ router.get("/", async (req, res, next) => {
         delete convoJSON.user2;
       }
 
-      // set property for online status of the other user
-      if (onlineUsers.includes(convoJSON.otherUser.id)) {
+      // set property for online status and active conversation of the other user
+      const otherUserOnline = onlineUsers.find(user => user.id === convoJSON.otherUser.id);
+
+      if(otherUserOnline) {
         convoJSON.otherUser.online = true;
+        convoJSON.otherUser.activeConversation = otherUserOnline.activeConversation;
       } else {
         convoJSON.otherUser.online = false;
+        convoJSON.otherUser.activeConversation = ""
       }
 
       // set properties for notification count and latest message preview

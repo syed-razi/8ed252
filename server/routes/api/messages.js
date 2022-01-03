@@ -28,8 +28,12 @@ router.post("/", async (req, res, next) => {
         user1Id: senderId,
         user2Id: recipientId,
       });
-      if (onlineUsers.includes(sender.id)) {
+
+      const onlineUser = onlineUsers.find(user => user.id === sender.id);
+
+      if (onlineUser) {
         sender.online = true;
+        sender.activeConversation = onlineUser.activeConversation;
       }
     }
     const message = await Message.create({

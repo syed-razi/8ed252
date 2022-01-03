@@ -22,11 +22,13 @@ router.get("/:username", async (req, res, next) => {
       },
     });
 
-    // add online status to each user that is online
+    // add online status to each user that is online and which conversation they are in if any
     for (let i = 0; i < users.length; i++) {
       const userJSON = users[i].toJSON();
-      if (onlineUsers.includes(userJSON.id)) {
+      const onlineUser = onlineUsers.find(user => user.id === userJSON.id)
+      if (onlineUser) {
         userJSON.online = true;
+        userJSON.activeConversation = onlineUser.activeConversation;
       }
       users[i] = userJSON;
     }
