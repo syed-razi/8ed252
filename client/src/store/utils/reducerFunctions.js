@@ -23,14 +23,16 @@ export const addMessageToStore = (state, payload) => {
   });
 };
 
-export const readMessagesFromStore = (state, payload) => {
-  const { convoId, updatedMessages } = payload;
+export const readMessagesInStore = (state, convoId) => {
   return state.map((convo) => {
     if (convo.id === convoId) {
       const convoCopy = {
         ...convo,
-        messages: updatedMessages,
-        latestMessage: updatedMessages[updatedMessages.length - 1]
+        messages: convo.messages.map((msg) => ({ ...msg, read: true })),
+        latestMessage: {
+          ...convo.messages[convo.messages.length - 1],
+          read: true,
+        },
       };
       return convoCopy;
     } else {

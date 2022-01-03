@@ -3,7 +3,7 @@ import { Box, Chip } from "@material-ui/core";
 import { BadgeAvatar, ChatContent } from "../Sidebar";
 import { makeStyles } from "@material-ui/core/styles";
 import { setActiveChat } from "../../store/activeConversation";
-import { postReadMessages } from "../../store/utils/thunkCreators";
+import { readMessages } from "../../store/utils/thunkCreators";
 import { connect } from "react-redux";
 
 const useStyles = makeStyles((theme) => ({
@@ -40,7 +40,7 @@ const Chat = (props) => {
       conversation.latestMessage.senderId !== user.id &&
       !conversation.latestMessage.read
     ) {
-      await props.postReadMessages(conversation);
+      await props.readMessages(conversation.id);
     }
     await props.setActiveChat(conversation.otherUser.username);
   };
@@ -77,8 +77,8 @@ const mapDispatchToProps = (dispatch) => {
     setActiveChat: (id) => {
       dispatch(setActiveChat(id));
     },
-    postReadMessages: (conversation) => {
-      dispatch(postReadMessages(conversation));
+    readMessages: (id) => {
+      dispatch(readMessages(id));
     },
   };
 };

@@ -5,7 +5,7 @@ import {
   addConversation,
   setNewMessage,
   setSearchedUsers,
-  readMessages,
+  readNewMessages,
 } from "../conversations";
 import { gotUser, setFetchingStatus } from "../user";
 
@@ -110,11 +110,13 @@ export const postMessage = (body) => async (dispatch) => {
   }
 };
 
-export const postReadMessages = (conversation) => async (dispatch) => {
+export const readMessages = (convoId) => async (dispatch) => {
   try {
-    const { data } = await axios.post("api/read-messages", conversation);
+    const result = await axios.patch("api/read-messages", { convoId });
 
-    dispatch(readMessages(data))
+    if (result.statusText === "OK") {
+      dispatch(readNewMessages(convoId));
+    }
     
   } catch (error) {
     console.error(error);
