@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
 const ChatContent = (props) => {
   const classes = useStyles();
 
-  const { conversation, user } = props;
+  const { conversation, user, activeConversation } = props;
   const { latestMessage, otherUser } = conversation;
 
   return (
@@ -41,7 +41,7 @@ const ChatContent = (props) => {
         </Typography>
         <Typography
           className={
-            !latestMessage?.read && user.id !== latestMessage?.senderId
+            !latestMessage?.read && user.id !== latestMessage?.senderId && otherUser.username !== activeConversation
               ? classes.previewTextUnread
               : classes.previewText
           }
@@ -58,6 +58,7 @@ const ChatContent = (props) => {
 const mapStateToProps = (state) => {
   return {
     user: state.user,
+    activeConversation: state.activeConversation,
   };
 };
 
