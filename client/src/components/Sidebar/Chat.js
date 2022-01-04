@@ -42,7 +42,10 @@ const Chat = (props) => {
     ) {
       await props.readMessages(conversation.id);
     }
-    await props.setActiveChat(conversation.otherUser.username);
+    await props.setActiveChat({
+      userId: user.id,
+      activeConversation: conversation.otherUser.username,
+    });
   };
 
   return (

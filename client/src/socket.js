@@ -4,6 +4,7 @@ import {
   setNewMessage,
   removeOfflineUser,
   addOnlineUser,
+  addActiveConversation,
   readNewMessages,
 } from "./store/conversations";
 
@@ -21,12 +22,20 @@ socket.on("connect", () => {
   socket.on("new-message", (data) => {
     // Only set new message for correct recipient
     if (data.recipientId === store.getState().user.id) {
-    store.dispatch(setNewMessage(data.message, data.sender));
+      store.dispatch(setNewMessage(data.message, data.sender));
     }
   });
   socket.on("read-messages", (convoId) => {
     store.dispatch(readNewMessages(convoId));
   });
+  socket.on("add-active-conversation", (data) => {
+    if (
+      store
+        .getState()
+        .conversations.find((convo) => convo.otherUser.id === data.userId)
+    ) {
+      store.dispatch(addActiveConversation(data));
+    }
   });
 });
 

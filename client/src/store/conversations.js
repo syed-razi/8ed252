@@ -1,6 +1,7 @@
 import {
   addNewConvoToStore,
   addOnlineUserToStore,
+  addActiveConversationToStore,
   addSearchedUsersToStore,
   removeOfflineUserFromStore,
   addMessageToStore,
@@ -17,6 +18,7 @@ const SET_SEARCHED_USERS = "SET_SEARCHED_USERS";
 const CLEAR_SEARCHED_USERS = "CLEAR_SEARCHED_USERS";
 const ADD_CONVERSATION = "ADD_CONVERSATION";
 const READ_MESSAGES = "READ_MESSAGES";
+const ADD_ACTIVE_CONVERSATION = "ADD_ACTIVE_CONVERSATION";
 
 // ACTION CREATORS
 
@@ -45,6 +47,13 @@ export const addOnlineUser = (id) => {
   return {
     type: ADD_ONLINE_USER,
     id,
+  };
+};
+
+export const addActiveConversation = (data) => {
+  return {
+    type: ADD_ACTIVE_CONVERSATION,
+    payload: { ...data },
   };
 };
 
@@ -88,6 +97,9 @@ const reducer = (state = [], action) => {
       return addMessageToStore(state, action.payload);
     case ADD_ONLINE_USER: {
       return addOnlineUserToStore(state, action.id);
+    }
+    case ADD_ACTIVE_CONVERSATION: {
+      return addActiveConversationToStore(state, action.payload);
     }
     case REMOVE_OFFLINE_USER: {
       return removeOfflineUserFromStore(state, action.id);

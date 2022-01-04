@@ -46,6 +46,13 @@ export const addOnlineUserToStore = (state, id) => {
     if (convo.otherUser.id === id) {
       const convoCopy = { ...convo };
       convoCopy.otherUser.online = true;
+
+export const addActiveConversationToStore = (state, payload) => {
+  const { userId, activeConversation } = payload;
+  return state.map((convo) => {
+    if (convo.otherUser.id === userId) {
+      const convoCopy = { ...convo };
+      convoCopy.otherUser.activeConversation = activeConversation;
       return convoCopy;
     } else {
       return convo;
