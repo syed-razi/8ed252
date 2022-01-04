@@ -46,6 +46,13 @@ export const addOnlineUserToStore = (state, id) => {
     if (convo.otherUser.id === id) {
       const convoCopy = { ...convo };
       convoCopy.otherUser.online = true;
+      convoCopy.otherUser.activeConversation = "";
+      return convoCopy;
+    } else {
+      return convo;
+    }
+  });
+};
 
 export const addActiveConversationToStore = (state, payload) => {
   const { userId, activeConversation } = payload;
@@ -65,6 +72,7 @@ export const removeOfflineUserFromStore = (state, id) => {
     if (convo.otherUser.id === id) {
       const convoCopy = { ...convo };
       convoCopy.otherUser.online = false;
+      convoCopy.otherUser.activeConversation = "";
       return convoCopy;
     } else {
       return convo;
