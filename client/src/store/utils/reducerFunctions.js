@@ -8,6 +8,20 @@ export const addMessageToStore = (state, payload) => {
       messages: [message],
     };
     newConvo.latestMessage = { ...message };
+    //if user's current search results includes the sender, overwrite the fake conversation with the newly created one
+    const existingFakeConvo = state.find(
+      (convo) => convo.otherUser.id === sender.id
+    );
+    if (existingFakeConvo) {
+      return state.map((convo) => {
+        if (convo === existingFakeConvo) {
+          return newConvo;
+        } else {
+          return convo;
+        }
+      });
+    }
+
     return [newConvo, ...state];
   }
 
