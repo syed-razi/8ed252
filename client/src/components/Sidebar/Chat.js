@@ -28,10 +28,7 @@ const useStyles = makeStyles((theme) => ({
 const Chat = (props) => {
   const classes = useStyles();
   const { conversation, user } = props;
-  const { otherUser, messages } = conversation;
-  const numUnreadMessages = messages.filter(
-    (message) => message?.senderId !== user.id && !message.read
-  ).length;
+  const { otherUser, numUnreadMessages } = conversation;
 
   const handleClick = async (conversation) => {
     // Only need to read messages if there are unread messages sent by another user
