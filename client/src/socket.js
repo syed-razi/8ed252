@@ -6,6 +6,7 @@ import {
   addOnlineUser,
   addActiveConversation,
   readNewMessages,
+  updateMessages,
 } from "./store/conversations";
 
 const socket = io(window.location.origin);
@@ -23,6 +24,7 @@ socket.on("connect", () => {
     // Only set new message for correct recipient
     if (data.recipientId === store.getState().user.id) {
       store.dispatch(setNewMessage(data.message, data.sender));
+      store.dispatch(updateMessages(data.message));
     }
   });
   socket.on("read-messages", (convoId) => {

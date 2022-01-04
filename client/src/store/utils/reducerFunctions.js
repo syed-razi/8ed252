@@ -37,6 +37,18 @@ export const addMessageToStore = (state, payload) => {
   });
 };
 
+export const updateUnreadMessages = (state, message) => {
+  return state.map(convo => {
+    if(convo.id === message.conversationId && !message.read) {
+      const convoCopy = { ...convo };
+      convoCopy.numUnreadMessages++;
+      return convoCopy;
+    } else {
+      return convo;
+    }
+  })
+}
+
 export const readMessagesInStore = (state, convoId) => {
   return state.map((convo) => {
     if (convo.id === convoId) {
