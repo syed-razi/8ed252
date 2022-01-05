@@ -41,14 +41,15 @@ const ChatContent = (props) => {
         </Typography>
         <Typography
           className={
-            !latestMessage?.read && user.id !== latestMessage?.senderId && otherUser.username !== activeConversation
+            !latestMessage?.read &&
+            user.id !== latestMessage?.senderId &&
+            otherUser.username !== activeConversation
               ? classes.previewTextUnread
               : classes.previewText
           }
         >
-          {`${user.id === latestMessage?.senderId ? "You: " : ""} ${
-            latestMessage?.text ?? ""
-          }`}
+          {user.id === latestMessage?.senderId && "You: "}
+          {latestMessage?.text}
         </Typography>
       </Box>
     </Box>
