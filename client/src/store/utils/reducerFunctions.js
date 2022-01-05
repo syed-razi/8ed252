@@ -69,6 +69,19 @@ export const readMessagesInStore = (state, convoId) => {
   });
 };
 
+export const updateLastReadMessageInStore = (state, payload) => {
+  const { convoId, lastReadMessageId } = payload;
+  return state.map((convo) => {
+    if (convo.id === convoId) {
+      const convoCopy = { ...convo };
+      convoCopy.lastReadMessageId = lastReadMessageId;
+      return convoCopy;
+    } else {
+      return convo;
+    }
+  });
+};
+
 export const addOnlineUserToStore = (state, id) => {
   return state.map((convo) => {
     if (convo.otherUser.id === id) {

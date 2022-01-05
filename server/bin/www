@@ -65,8 +65,8 @@ io.on("connection", (socket) => {
     });
   });
 
-  socket.on("read-messages", (convoId) => {
-    socket.broadcast.emit("read-messages", convoId);
+  socket.on("read-messages", (data) => {
+    socket.broadcast.emit("read-messages", data);
   });
 
   socket.on("logout", (id) => {

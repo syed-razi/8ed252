@@ -3,13 +3,13 @@ const { Message } = require("../../db/models");
 
 router.patch("/", async (req, res, next) => {
   try {
-    const { convoId } = req.body;
+    const { id } = req.body;
 
     const result = await Message.update(
       { read: true },
       {
         where: {
-          conversationId: convoId,
+          conversationId: id,
           read: false,
         },
         returning: true,

@@ -7,6 +7,7 @@ import {
   addMessageToStore,
   readMessagesInStore,
   updateUnreadMessages,
+  updateLastReadMessageInStore,
 } from "./utils/reducerFunctions";
 
 // ACTIONS
@@ -21,6 +22,7 @@ const ADD_CONVERSATION = "ADD_CONVERSATION";
 const READ_MESSAGES = "READ_MESSAGES";
 const ADD_ACTIVE_CONVERSATION = "ADD_ACTIVE_CONVERSATION";
 const UPDATE_MESSAGES = "UPDATE_MESSAGES";
+const UPDATE_LAST_READ_MESSAGE = "UPDATE_LAST_READ_MESSAGE";
 
 // ACTION CREATORS
 
@@ -35,6 +37,13 @@ export const readNewMessages = (convoId) => {
   return {
     type: READ_MESSAGES,
     convoId,
+  };
+};
+
+export const updateLastReadMessage = (data) => {
+  return {
+    type: UPDATE_LAST_READ_MESSAGE,
+    payload: { ...data },
   };
 };
 
@@ -102,6 +111,8 @@ const reducer = (state = [], action) => {
       return action.conversations;
     case READ_MESSAGES:
       return readMessagesInStore(state, action.convoId);
+    case UPDATE_LAST_READ_MESSAGE:
+      return updateLastReadMessageInStore(state, action.payload);
     case SET_MESSAGE:
       return addMessageToStore(state, action.payload);
     case UPDATE_MESSAGES:

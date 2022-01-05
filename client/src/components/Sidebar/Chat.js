@@ -37,7 +37,7 @@ const Chat = (props) => {
       conversation.latestMessage.senderId !== user.id &&
       !conversation.latestMessage.read
     ) {
-      await props.readMessages(conversation.id);
+      await props.readMessages(conversation);
     }
     await props.setActiveChat({
       userId: user.id,
@@ -77,8 +77,8 @@ const mapDispatchToProps = (dispatch) => {
     setActiveChat: (id) => {
       dispatch(setActiveChat(id));
     },
-    readMessages: (id) => {
-      dispatch(readMessages(id));
+    readMessages: (conversation) => {
+      dispatch(readMessages(conversation));
     },
   };
 };

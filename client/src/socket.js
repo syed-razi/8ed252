@@ -7,6 +7,7 @@ import {
   addActiveConversation,
   readNewMessages,
   updateMessages,
+  updateLastReadMessage,
 } from "./store/conversations";
 
 const socket = io(window.location.origin);
@@ -27,8 +28,9 @@ socket.on("connect", () => {
       store.dispatch(updateMessages(data.message));
     }
   });
-  socket.on("read-messages", (convoId) => {
-    store.dispatch(readNewMessages(convoId));
+  socket.on("read-messages", (data) => {
+    store.dispatch(readNewMessages(data.convoId));
+    store.dispatch(updateLastReadMessage(data));
   });
   socket.on("add-active-conversation", (data) => {
     if (

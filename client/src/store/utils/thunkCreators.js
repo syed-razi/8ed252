@@ -97,7 +97,7 @@ const sendMessage = (data, body) => {
 export const postMessage = (body) => async (dispatch) => {
   try {
     const data = await saveMessage(body);
-    
+
     if (!body.conversationId) {
       dispatch(addConversation(body.recipientId, data.message));
     } else {
@@ -110,15 +110,19 @@ export const postMessage = (body) => async (dispatch) => {
   }
 };
 
-export const readMessages = (convoId) => async (dispatch) => {
+export const readMessages = (conversation) => async (dispatch) => {
   try {
-    const result = await axios.patch("api/read-messages", { convoId });
+    const { id, latestMessage } = conversation;
+    const result = await axios.patch("api/read-messages", { id });
 
     if (result.statusText === "OK") {
-      dispatch(readNewMessages(convoId));
+      dispatch(readNewMessages(id));
     }
 
-    socket.emit("read-messages", convoId);
+    socket.emit("read-messages", {
+      convoId: id,
+      lastReadMessageId: latestMessage.id,
+    });
   } catch (error) {
     console.error(error);
   }
