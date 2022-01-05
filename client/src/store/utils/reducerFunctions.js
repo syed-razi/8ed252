@@ -59,6 +59,7 @@ export const readMessagesInStore = (state, convoId) => {
           ...convo.messages[convo.messages.length - 1],
           read: true,
         },
+        numUnreadMessages: 0,
       };
       return convoCopy;
     } else {
