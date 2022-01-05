@@ -6,6 +6,7 @@ export const addMessageToStore = (state, payload) => {
       id: message.conversationId,
       otherUser: sender,
       messages: [message],
+      numUnreadMessages: 0,
     };
     newConvo.latestMessage = { ...message };
     //if user's current search results includes the sender, overwrite the fake conversation with the newly created one
