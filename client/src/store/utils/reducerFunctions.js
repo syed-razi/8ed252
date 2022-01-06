@@ -31,9 +31,6 @@ export const addMessageToStore = (state, payload) => {
       const convoCopy = { ...convo };
       convoCopy.messages.push(message);
       convoCopy.latestMessage = { ...message };
-      if (message.read) {
-        convoCopy.lastReadMessageId = message.id;
-      }
       return convoCopy;
     } else {
       return convo;

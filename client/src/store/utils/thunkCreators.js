@@ -6,6 +6,7 @@ import {
   setNewMessage,
   setSearchedUsers,
   readNewMessages,
+  updateLastReadMessage,
 } from "../conversations";
 import { gotUser, setFetchingStatus } from "../user";
 
@@ -104,6 +105,15 @@ export const postMessage = (body) => async (dispatch) => {
       dispatch(setNewMessage(data.message));
     }
 
+    if (data.message.read) {
+      dispatch(
+        updateLastReadMessage({
+          convoId: data.message.conversationId,
+          lastReadMessageId: data.message.id,
+        })
+      );
+    }
+    
     sendMessage(data, body);
   } catch (error) {
     console.error(error);
