@@ -3,6 +3,9 @@ const { Message } = require("../../db/models");
 
 router.patch("/", async (req, res, next) => {
   try {
+    if (!req.user) {
+      return res.sendStatus(401);
+    }
     const { id } = req.body;
 
     const result = await Message.update(
