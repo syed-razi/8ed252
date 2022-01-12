@@ -74,8 +74,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    setActiveChat: (id) => {
-      dispatch(setActiveChat(id));
+    setActiveChat: (data) => {
+      dispatch(setActiveChat(data));
     },
     readMessages: (conversation) => {
       dispatch(readMessages(conversation));
