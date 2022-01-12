@@ -1,8 +1,9 @@
 import React from "react";
-import { Box } from "@material-ui/core";
+import { Box, Chip } from "@material-ui/core";
 import { BadgeAvatar, ChatContent } from "../Sidebar";
 import { makeStyles } from "@material-ui/core/styles";
 import { setActiveChat } from "../../store/activeConversation";
+import { postReadMessages } from "../../store/utils/thunkCreators";
 import { connect } from "react-redux";
 
 const useStyles = makeStyles((theme) => ({
@@ -14,17 +15,33 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     alignItems: "center",
     "&:hover": {
-      cursor: "grab"
-    }
-  }
+      cursor: "grab",
+    },
+  },
+  chip: {
+    fontSize: 12,
+    fontWeight: "bold",
+    marginRight: 5,
+  },
 }));
 
 const Chat = (props) => {
   const classes = useStyles();
-  const { conversation } = props;
-  const { otherUser } = conversation;
+  const { conversation, user } = props;
+  const { otherUser, messages } = conversation;
+  const numUnreadMessages = messages.filter(
+    (message) => message?.senderId !== user.id && !message.read
+  ).length;
 
   const handleClick = async (conversation) => {
+    // Only need to read messages if there are unread messages sent by another user
+    if (
+      conversation.messages.length > 0 &&
+      conversation.latestMessage.senderId !== user.id &&
+      !conversation.latestMessage.read
+    ) {
+      await props.postReadMessages(conversation);
+    }
     await props.setActiveChat(conversation.otherUser.username);
   };
 
@@ -37,16 +54,33 @@ const Chat = (props) => {
         sidebar={true}
       />
       <ChatContent conversation={conversation} />
+      {numUnreadMessages > 0 && (
+        <Chip
+          className={classes.chip}
+          label={numUnreadMessages}
+          color="primary"
+          size="small"
+        />
+      )}
     </Box>
   );
+};
+
+const mapStateToProps = (state) => {
+  return {
+    user: state.user,
+  };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
     setActiveChat: (id) => {
       dispatch(setActiveChat(id));
-    }
+    },
+    postReadMessages: (conversation) => {
+      dispatch(postReadMessages(conversation));
+    },
   };
 };
 
-export default connect(null, mapDispatchToProps)(Chat);
+export default connect(mapStateToProps, mapDispatchToProps)(Chat);
